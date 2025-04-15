@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        h2 {
+            color: #003366;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #003366;
+            color: white;
+        }
+        button {
+            padding: 5px 10px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .approve {
+            background-color: #28a745;
+        }
+        .reject {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Dashboard - Document Approvals</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Document</th>
+                    <th>File</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John Doe</td>
+                    <td>Aadhar Card</td>
+                    <td>
+                        <a href="aadharsample.png" target="_blank">View File</a>
+                        <br>
+                        <img src="aadharsample.png" alt="Document" width="100px">
+                    </td>
+                    <td class="status">Pending</td>
+                    <td>
+                        <button class="approve" onclick="updateStatus(this, 'Approved')">Approve</button>
+                        <button class="reject" onclick="updateStatus(this, 'Rejected')">Reject</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Jane Smith</td>
+                    <td>Pan Card</td>
+                    <td>
+                        <a href="pancard.jpeg" target="_blank">View File</a>
+                        <br>
+                        <img src="pancard.jpeg" alt="Document" width="100px">
+                    </td>
+                    <td class="status">Pending</td>
+                    <td>
+                        <button class="approve" onclick="updateStatus(this, 'Approved')">Approve</button>
+                        <button class="reject" onclick="updateStatus(this, 'Rejected')">Reject</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button onclick="logoutAdmin()" style="background-color: #dc3545; padding: 10px; color: white; border: none; cursor: pointer; margin-top: 20px;">
+            Logout
+        </button>
+    </div>
+</body>
+
+<script>
+    function updateStatus(button, status) {
+        const row = button.closest("tr");
+        row.querySelector(".status").innerText = status;
+    }
+
+    function logoutAdmin() {
+        localStorage.removeItem("adminLoggedIn"); // Remove admin session
+        alert("Logged out successfully!");
+        window.location.href = "admin_login.html"; // Redirect to login
+    }
+</script>
+
+</html>
+
+
+

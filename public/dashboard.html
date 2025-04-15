@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Online Document System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .profile-menu {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            min-width: 150px;
+            text-align: left;
+            z-index: 1000;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 10px;
+            color: #003366;
+            text-decoration: none;
+        }
+        .dropdown-content a:hover {
+            background-color: #e3e6f0;
+        }
+        .profile-menu:hover .dropdown-content {
+            display: block;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2, h3 {
+            color: #003366;
+        }
+        .category {
+            margin-top: 30px;
+            padding: 15px;
+            border-left: 5px solid #003366;
+            background-color: #e3e6f0;
+            border-radius: 5px;
+        }
+        .document-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .document-item {
+            padding: 15px;
+            margin: 10px;
+            width: 250px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #003366;
+            font-weight: bold;
+            color: #003366;
+        }
+        .document-item:hover {
+            background-color: #003366;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    Government Online Document System
+    <div class="profile-menu">
+        Profile
+        <div class="dropdown-content">
+            <a href="#" onclick="viewProfile()">View Profile</a>
+            <a href="track.html" >Track Documents</a>
+        </div>
+    </div>
+</header>
+
+<div class="container" id="main-content">
+    <h2>Welcome to the Dashboard</h2>
+    <p>Select the document you want to apply for:</p>
+
+    <!-- Personal Documents -->
+    <div class="category">
+        <h3>📄 Personal Documents</h3>
+        <div class="document-list">
+            <div class="document-item" onclick="openUploadPage('caste_certificate')">Caste Certificate</div>
+            <div class="document-item" onclick="openUploadPage('income_certificate')">Income Certificate</div>
+            <div class="document-item" onclick="openUploadPage('domicile_certificate')">Domicile Certificate</div>
+            <div class="document-item" onclick="openUploadPage('birth_certificate')">Birth Certificate</div>
+            <div class="document-item" onclick="openUploadPage('death_certificate')">Death Certificate</div>
+            <div class="document-item" onclick="openUploadPage('marriage_certificate')">Marriage Certificate</div>
+        </div>
+    </div>
+
+    <!-- Education Documents -->
+    <div class="category">
+        <h3>🎓 Education-Related Documents</h3>
+        <div class="document-list">
+            <div class="document-item" onclick="openUploadPage('leaving_certificate')">Leaving Certificate (LC)</div>
+            <div class="document-item" onclick="openUploadPage('bonafide_certificate')">Bonafide Certificate</div>
+            <div class="document-item" onclick="openUploadPage('scholarship_forms')">Scholarship Application Forms</div>
+        </div>
+    </div>
+
+    <!-- Business & Property Documents -->
+    <div class="category">
+        <h3>🏢 Business & Property Documents</h3>
+        <div class="document-list">
+            <div class="document-item" onclick="openUploadPage('property_ownership')">Property Ownership Certificate</div>
+            <div class="document-item" onclick="openUploadPage('land_records')">Land Records (7/12 Extract)</div>
+            <div class="document-item" onclick="openUploadPage('shop_license')">Shop License</div>
+        </div>
+    </div>
+
+    <!-- Other Important Documents -->
+    <div class="category">
+        <h3>📑 Other Important Documents</h3>
+        <div class="document-list">
+            <div class="document-item" onclick="openUploadPage('pan_card')">PAN Card</div>
+            <div class="document-item" onclick="openUploadPage('aadhaar_card')">Aadhaar Card</div>
+            <div class="document-item" onclick="openUploadPage('ration_card')">Ration Card</div>
+            <div class="document-item" onclick="openUploadPage('ews_certificate')">EWS Certificate</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openUploadPage(documentType) {
+        window.location.href = `upload.html?doc=${documentType}`;
+    }
+
+    function viewProfile() {
+        document.getElementById("main-content").innerHTML = `
+            <h2>Your Profile</h2>
+            <p><strong>Username:</strong> Ruby </p>
+            <p><strong>Email:</strong> ruby@gmail.com</p>
+            <button onclick="location.reload()">Back</button>
+        `;
+    }
+
+    // function trackDocuments() {
+    //     fetch("http://localhost:3000/api/getApplications?username=" + localStorage.getItem("username"))
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             let content = `<h2>Document Tracking</h2>`;
+    //             data.forEach(doc => {
+    //                 content += `<p><strong>${doc.documentType}:</strong> ${doc.status}
+    //                     ${doc.status === 'Approved' ? `<a href="${doc.fileUrl}" download> 📥 Download</a>` : ''}
+    //                 </p>`;
+    //             });
+    //             content += `<button onclick="location.reload()">Back</button>`;
+    //             document.getElementById("main-content").innerHTML = content;
+    //         });
+    // }
+</script>
+
+</body>
+</html>
+
+
+
+
