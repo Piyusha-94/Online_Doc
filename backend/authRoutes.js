@@ -7,28 +7,28 @@ console.log("Database Config:", process.env.DB_HOST, process.env.DB_USER, proces
 router.post("/signup", async (req, res) => {
     const { name, email, password } = req.body;
     try {
-        // Check if the user already exists
-        const [existingUser] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
-        if (existingUser.length > 0) {
+        // PostgreSQL uses $1, $2... as placeholders
+        const result = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+        if (result.rows.length > 0) {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        // Insert new user
-        await pool.query("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [name, email, password]);
+        await pool.query("INSERT INTO users (name, email, password) VALUES ($1, $2, $3)", [name, email, password]);
 
         res.json({ success: true, redirectTo: "/login.html" });
     } catch (error) {
-        console.error("❌ Signup Error:", error); // Logs the full error in the console
+        console.error("❌ Signup Error:", error);
         res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 });
+
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     console.log("🔍 Received Login Request:", email, password);
 
     try {
-        const [rows] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
-        console.log("🛠 DB Query Result:", rows);
+        const result = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+        const rows = result.rows;
 
         if (rows.length === 0) {
             return res.status(401).json({ success: false, message: "User not found" });
@@ -48,11 +48,3 @@ router.post("/login", async (req, res) => {
         res.status(500).json({ success: false, message: "Internal server error" });
     }
 });
-
-
-module.exports = router;         
-
-
-
-
-
